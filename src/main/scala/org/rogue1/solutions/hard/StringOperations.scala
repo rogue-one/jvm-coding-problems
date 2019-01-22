@@ -114,9 +114,15 @@ class StringOperations {
     */
   def fullJustify(words: Array[String], maxWidth: Int): List[String] = {
     def justify(input: List[String], maxWidth: Int): String = {
-      val wordSpacing = " " * (((maxWidth - (input.map(_.length + 1).sum - 1))/input.length)+1)
-      val linePadding = " " * ((maxWidth - (input.map(_.length + 1).sum - 1)) % input.length)
-      s"${input.mkString(wordSpacing)}$linePadding"
+      input match {
+        case head :: Nil =>
+          val (wordSpacing, linePadding) = ("", " " * (maxWidth - head.length))
+          s"${input.mkString(wordSpacing)}$linePadding"
+        case _ =>
+          val wordSpacing = " " * (((maxWidth - (input.map(_.length + 1).sum - 1))/(input.length - 1))+1)
+          val linePadding = " " * ((maxWidth - (input.map(_.length + 1).sum - 1)) % (input.length - 1))
+          s"${input.mkString(wordSpacing)}$linePadding"
+      }
     }
     val data = words.tail.foldLeft(List[List[String]](List(words.head)))({
       case (init :+ last, item) =>

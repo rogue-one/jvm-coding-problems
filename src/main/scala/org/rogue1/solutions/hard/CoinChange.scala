@@ -44,7 +44,6 @@ object CoinChange {
       i <- 1 to data.length
       list <- data.combinations(i) if list.sum == amount
     } yield list
-    println(result.mkString(","))
     result.map(_.length).sorted.headOption match {
       case Some(x) => x
       case None => -1
